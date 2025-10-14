@@ -40,7 +40,7 @@ const [fontsLoaded] = useFonts({
       backgroundColor: '#1e1e1e',
       borderRadius: 8,
       paddingHorizontal: 15,
-      paddingRight: 45, // make space for the icon
+      paddingRight: 45, 
       color: '#fff',
     }}
     placeholder="Password"

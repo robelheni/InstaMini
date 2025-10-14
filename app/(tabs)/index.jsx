@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Log from './log/Log';
 
+
+
 export default function Index() {
   return (
     <View style={styles.container}>

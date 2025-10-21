@@ -4,7 +4,7 @@ import { useFonts } from 'expo-font';
 import React, { useState } from 'react';
 import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, } from 'react-native';
 
-export default function Log() {
+export default function Log({onSignUp}) {
 
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
@@ -73,7 +73,7 @@ const [fontsLoaded] = useFonts({
 
       
       <View style={{ position: 'absolute', bottom: 40, alignItems: 'center' }}>
-  <View
+              <View
     style={{
       width: '100%',
       height: 1,
@@ -83,9 +83,9 @@ const [fontsLoaded] = useFonts({
   />
   <View style={{ flexDirection: 'row' }}>
     <Text style={{ color: '#fff' }}>Don’t have an account? </Text>
-    <TouchableOpacity onPress={() => console.log('Sign Up pressed')}>
-      <Text style={{ color: '#1DA1F2', fontWeight: 'bold' }}>Sign up</Text>
-    </TouchableOpacity>
+    <TouchableOpacity onPress={onSignUp}>
+  <Text style={{ color: '#1DA1F2', fontWeight: 'bold' }}>Sign up</Text>
+</TouchableOpacity>
   </View>
 </View>
 
@@ -95,7 +95,7 @@ const [fontsLoaded] = useFonts({
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',

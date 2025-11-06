@@ -91,7 +91,7 @@ export default function SignUp() {
   
     return (
       <Pressable onPress={Keyboard.dismiss} style={styles.container}>
-      <View style={styles.container}>
+      <View style={{ alignItems: 'center', width: '100%' }}>
         <Text style={styles.title}>Sign Up</Text>
   
         <TextInput

@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Home from './Home';
 import Log from './log/Log';
 import SignUp from './log/SignUp';
+import CreatePost from './CreatePost';
 
 //create a stack navigator object
 const Stack = createNativeStackNavigator();
@@ -16,11 +17,12 @@ export default function RootStack() {
     Stack.Screen → defines each individual screen*/}
     <Stack.Navigator 
     screenOptions={{ headerShown: false }}
-    initialRouteName='Home'
+    initialRouteName='CreatePost'
     >
       <Stack.Screen name="Login" component={Log} />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name = "CreatePost" component ={CreatePost}/>
     </Stack.Navigator>
     </GestureHandlerRootView>
   );

@@ -1,9 +1,10 @@
 // Home.js
-import React, { useState } from 'react';
-import { SafeAreaView, Text, TouchableOpacity, View , RefreshControl} from 'react-native';
+import React, { useState,useEffect } from 'react';
+import { SafeAreaView, Text, TouchableOpacity, View , RefreshControl, ActivityIndicator} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
+
 
 
 export default function Home({route}) {
@@ -16,6 +17,9 @@ export default function Home({route}) {
   const [post2Bookmarked, setPost2Bookmarked] = useState(false);
   const [post3Bookmarked, setPost3Bookmarked] = useState(false);
   const[refreshing, setRefreshing]= useState(false);
+  const [lastTap, setLastTap] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [posts, setPosts] = useState ([1,2,3,4]);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -24,14 +28,22 @@ export default function Home({route}) {
       setRefreshing(false);
     }, 2000)
   }
-  
+  useEffect(() => {
+    console.log ('Home screen loaded');
+    console.log('Logged in user:', user);
+  },[])
   return (
+    
     //SafeAreaView makes sure your content doesn’t overlap the phone’s notch, status bar, or home indicator—it keeps your UI inside the “safe” visible area.
     <SafeAreaView style = {{flex:1, backgroundColor:'#000'}}>
 
+  
+
       
         <View style ={{ flexDirection:'row', alignItems:'center',justifyContent:'space-between', padding:15,borderBottomWidth:1, borderBottomColor: '#333'}}>
-          <Text style ={{ color:'#fff',fontSize: 24}}>Instagram</Text>
+          <TouchableOpacity onPress ={() => console.log ('scroll to toop')}>
+            <Text style ={{ color:'#fff',fontSize: 24}}>Instagram</Text>
+          </TouchableOpacity>
           <View style ={{flexDirection:'row'}}>
             <TouchableOpacity onPress ={() => console.log('Notifications')}>
               <Text style ={{ color: '#fff', fontSize: 24, marginRight: 15}}>🤍</Text>
@@ -111,6 +123,18 @@ export default function Home({route}) {
             
             </ScrollView>
           </View>  
+          {loading && (
+            <View style={{ padding: 20, alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="#fff" />
+            </View>
+          )}
+
+          {!loading && posts.length === 0 && (
+            <View style={{ padding: 40, alignItems: 'center' }}>
+              <Text style={{ color: '#666', fontSize: 16 }}>No posts yet</Text>
+              <Text style={{ color: '#666', fontSize: 14, marginTop: 10 }}>Follow people to see their posts</Text>
+            </View>
+          )}
             {/* username*/}
             <View style ={{padding:10, flexDirection:'row', alignItems:'center',justifyContent:'space-between'}}>
               <View style ={{padding: 10, flexDirection:'row',alignItems:'center'}}>
@@ -125,10 +149,20 @@ export default function Home({route}) {
             </View>
 
             {/*Post Image */}
-            <TouchableOpacity activeOpacity ={1} onPress = {() => {if(!postLiked){
-              setPostLiked(true);
-            }
-            }}>
+            <TouchableOpacity activeOpacity ={1} onPress = {() => {
+              const now = Date.now();
+              const DOUBLE_PRESS_DELAY = 300; //MILLOSECONDS
+
+              if(lastTap && (now - lastTap) < DOUBLE_PRESS_DELAY){
+                if(!postLiked){
+                  setPostLiked(true);
+                  }
+                } else {
+                  setLastTap(now);
+                }
+
+              }
+            }>
             <View style = {{width: '100%', height :400, backgroundColor: '#333'}}>
               <Text style ={{color:'#666'}}>Image Placeholder</Text>
 
@@ -195,9 +229,18 @@ export default function Home({route}) {
               </TouchableOpacity>
             </View>
             {/*Post Image */}
-            <TouchableOpacity activeOpacity ={2} onPress = {() => {if (!post2Liked){
+            <TouchableOpacity activeOpacity ={1} onPress = {() => {
+              const now = Date.now();
+              const DOUBLE_PRESS_DELAY = 300;
+
+              if (lastTap && (now - lastTap) < DOUBLE_PRESS_DELAY){
+              if (!post2Liked){
               setPost2Liked(true);
-            }}}>
+            }
+          }else {
+            setLastTap(now);
+          }
+          }}>
             <View style = {{width: '100%', height :400, backgroundColor: '#333'}}>
               <Text style ={{color:'#666'}}>Image Placeholder</Text>
 
@@ -266,14 +309,18 @@ export default function Home({route}) {
               </TouchableOpacity>
             </View>
             {/*Post Image */}
-            <TouchableOpacity 
-              activeOpacity={3}
-              onPress={() => {
-              if (!post3Liked) {
-              setPost3Liked(true);
+            <TouchableOpacity activeOpacity ={1} onPress = {() => {
+                const now = Date.now();
+                const DOUBLE_PRESS_DELAY = 300;
+
+                if (lastTap && (now - lastTap) < DOUBLE_PRESS_DELAY){
+                if (!post3Liked){
+                setPost3Liked(true);
               }
-              }}
-              >
+            }else {
+              setLastTap(now);
+            }
+            }}>
             <View style = {{width: '100%', height :400, backgroundColor: '#333'}}>
               <Text style ={{color:'#666'}}>Image Placeholder</Text>
 
@@ -324,6 +371,7 @@ export default function Home({route}) {
             </View>
             </View>
           </View>
+          <View style ={{height:20}}></View>
       </ScrollView>
       <View style = {{flexDirection:'row',borderTopWidth:1, borderTopColor:'#333', paddingVertical:10 }}>
         <TouchableOpacity style ={{flex:1, alignItems:'center'}} onPress ={() => console.log("Home")}>
@@ -334,7 +382,7 @@ export default function Home({route}) {
           <Text style={{ color: '#fff', flex:1, textAlign: 'center', fontSize: 24 }}>🔍</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style ={{flex:1, alignItems:'center'}} onPress ={() => console.log('create post')}>
+        <TouchableOpacity style ={{flex:1, alignItems:'center'}} onPress ={() => navigation.navigate('CreatePost')}>
           <Text style={{ color: '#fff', flex:1, textAlign: 'center', fontSize: 24 }}>➕</Text>
         </TouchableOpacity>
 

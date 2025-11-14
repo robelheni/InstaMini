@@ -6,6 +6,7 @@ import Home from './Home';
 import Log from './log/Log';
 import SignUp from './log/SignUp';
 import CreatePost from './CreatePost';
+import AddCaption from './AddCaption'
 
 //create a stack navigator object
 const Stack = createNativeStackNavigator();
@@ -23,6 +24,7 @@ export default function RootStack() {
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name = "CreatePost" component ={CreatePost}/>
+      <Stack.Screen name="AddCaption" component={AddCaption} />
     </Stack.Navigator>
     </GestureHandlerRootView>
   );
